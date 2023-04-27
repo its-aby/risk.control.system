@@ -1,0 +1,60 @@
+﻿@model IEnumerable<risk.control.system.Models.LineOfBusiness>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div>
+    <h4>Line of Business</h4>
+    
+    <form method="post" action="roles/create">
+    <div class="input-group col-5" style="padding:0px;">
+            <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i> Create Line of Business</a>
+
+            <input autocomplete="off" name="roleName" type="text" class="form-control">
+            <span class="input-group-append">
+                <button type="submit" class="btn btn-info"> <i class="fa fa-search"></i> Search...</button>
+            </span>
+        </div>
+    </form>
+    <br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    <a class="btn btn-xs btn-info" asp-action="Details" asp-route-id="@item.LineOfBusinessId"><i
+                            class="fa fa-search"></i> View</a> &nbsp;
+                        <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@item.LineOfBusinessId">
+                            <i class="fas fa-pen"></i> Edit</a> &nbsp;
+                        <a class="btn btn-xs btn-danger" asp-action="Delete" asp-route-id="@item.LineOfBusinessId">
+                            <i class="fas fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>

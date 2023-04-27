@@ -1,0 +1,183 @@
+﻿@using risk.control.system.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<aside class="main-sidebar elevation-2 sidebar-light-primary">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+        <img src="~/img/logo.png"
+             alt="aby Logo"
+             class="brand-image img-circle elevation-0"
+             style="opacity: .8">
+        <div>
+            <span class="brand-text font-weight-light">TALIC </span>
+        </div>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                @if (UserManager.GetUserAsync(User).Result?.ProfilePictureUrl != null)
+                {
+                    <div class="image">
+                        <img class="img-circle elevation-0 sidebar-profile" src=".././@UserManager.GetUserAsync(User).Result.ProfilePictureUrl">
+                    </div>
+                }
+                <div class="info">
+                    <a href="#" class="d-block">
+                    @UserManager.GetUserAsync(User).Result?.FirstName @UserManager.GetUserAsync(User).Result?.LastName 
+                    @if (User.IsInRole(AppRoles.PortalAdmin.ToString()))
+                    {
+                        <span class="badge badge-danger">PA</span>
+                    }
+                    else if (User.IsInRole(AppRoles.ClientAdmin.ToString()))
+                    {
+                        <span class="badge badge-warning">CA</span>
+                    }
+                    else if (User.IsInRole(AppRoles.VendorAdmin.ToString()))
+                    {
+                        <span class="badge badge-info">VA</span>
+                    }    
+                    else if (User.IsInRole(AppRoles.ClientCreator.ToString()))
+                    {
+                        <span class="badge badge-primary">CC</span>
+                    }        
+                    else if (User.IsInRole(AppRoles.ClientAssigner.ToString()))
+                    {
+                        <span class="badge badge-secondary">CAS</span>
+                    }     
+                    else if (User.IsInRole(AppRoles.ClientAssessor.ToString()))
+                    {
+                        <span class="badge badge-secondary">CSS</span>
+                    }            
+                   else if (User.IsInRole(AppRoles.VendorSupervisor.ToString()))
+                    {
+                        <span class="badge badge-dark">VS</span>
+                    }    
+                  else if (User.IsInRole(AppRoles.VendorAgent.ToString()))
+                    {
+                        <span class="badge badge-dark">VAG</span>
+                    }                                                                                                                      
+                    </a>
+                </div>
+            </div>
+        }
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a is-active-page asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">INVESTIGATION <span class="badge badge-danger">*</span></li>
+                <li class="nav-item">
+                    <a is-active-page asp-area="" asp-controller="InvestigationCase" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>
+                            investigation cases
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-page asp-area="" asp-controller="LineOfBusiness" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            line of business
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-page asp-area="" asp-controller="InvestigationCaseStatus" asp-action="Index" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>case status</p>
+                    </a>
+                </li>
+ 
+                @{
+                    if (User.IsInRole(AppRoles.PortalAdmin.ToString()) || User.IsInRole(AppRoles.ClientAdmin.ToString()))
+                        {
+                        <li class="nav-header">PORTAL ADMIN</li>
+ 
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="Roles" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    roles
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                                    <a is-active-page asp-area="" asp-controller="User" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    user roles
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="Product" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                     permissions sample
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="ClientCompany" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    client company
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="Address" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    address
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="Country" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    country
+                                </p>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="State" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    state
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="" asp-controller="PinCodes" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    pincode
+                                </p>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

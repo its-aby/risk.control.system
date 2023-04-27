@@ -1,0 +1,84 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity;
+@using risk.control.system.Models.ViewModel;
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <partial name="AdminLTE/_Styles" />
+</head>
+
+<body class="hold-transition login-page" style="background: white!important;">
+    <div class="login-box">
+        <div style="text-align: -webkit-center;">
+            <div class="alert">
+                <div class="login-logo">
+                    <b>risk. </b>control unit
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Sign in </p>
+                <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <div class="mb-3">
+                        <div class="mb-3 input-group">
+                            <input name="Email" placeholder="Email" type="email" id="email" class="form-control"
+                                value="portal-admin@admin.com">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-3 input-group"><input name="password" placeholder="Password" type="password"
+                                id="password" class="form-control" value="123Pa$$word!">
+                            <div class="input-group-append"><span class="input-group-text"><i
+                                        class="fas fa-lock"></i></span></div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-key"></i>&nbsp; Sign
+                            in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.login-card-body -->
+        <div style="text-align: -webkit-center;">
+            <small style="font-size:15px"> designer <a href="http://itsaby.com.au">its aby</a></small>
+            <br />
+            <br />
+            <div class="alert alert-success">
+                @*                Portal Admin username – `portal-admin@admin.com` <br />
+                Portal Admin password - `123Pa$$word!`*@
+            </div>
+        </div>
+    </div>
+    <partial name="AdminLTE/_Scripts" />
+
+</body>
+
+</html>
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    </script>
+}
