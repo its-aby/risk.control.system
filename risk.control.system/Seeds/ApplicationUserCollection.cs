@@ -2,7 +2,7 @@
 {
     public static class ApplicationUserOptions
     {
-        public const string Password = "123Pa$$word!";
+        public const string Password = "R1$kcontrol!";
     }
 
 }

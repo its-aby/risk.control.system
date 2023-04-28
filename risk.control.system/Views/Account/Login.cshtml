@@ -3,11 +3,12 @@
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity;
 @using risk.control.system.Models.ViewModel;
+@using risk.control.system.Seeds;
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Log in: risk.control.unit";
 
     Layout = null;
 }
@@ -17,7 +18,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Log in</title>
+    <title>Log in to risk.control.unit</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <partial name="AdminLTE/_Styles" />
@@ -28,7 +29,7 @@
         <div style="text-align: -webkit-center;">
             <div class="alert">
                 <div class="login-logo">
-                    <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> risk.control.unit <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                     risk.control.unit
                 </div>
             </div>
             <br />
@@ -50,7 +51,7 @@
                     </div>
                     <div class="mb-3">
                         <div class="mb-3 input-group"><input name="password" placeholder="Password" type="password"
-                                id="password" class="form-control" value="123Pa$$word!">
+                                   id="password" class="form-control" value="">
                             <div class="input-group-append"><span class="input-group-text"><i
                                         class="fas fa-lock"></i></span></div>
                         </div>
@@ -67,8 +68,8 @@
             
             <br />
             <br />
-            <div class="alert alert-success">
-                <small style="font-size:15px"> designer <a href="http://itsaby.com.au">its aby</a></small>
+            <div class="alert">
+                designer <a href="http://itsaby.com.au">its aby</a>
             </div>
         </div>
     </div>
