@@ -24,5 +24,6 @@ namespace risk.control.system.Data
         public virtual DbSet<PinCode> PinCode { get; set; }
         public virtual DbSet<ClientCompany> ClientCompany { get; set; }
         public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<InvestigationServiceType> InvestigationServiceType { get; set; }
     }
 }

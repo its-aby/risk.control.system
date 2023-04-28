@@ -11,8 +11,8 @@ using risk.control.system.Data;
 namespace risk.control.system.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230428012823_clientcompany")]
-    partial class clientcompany
+    [Migration("20230428021209_serviceTypes")]
+    partial class serviceTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -427,6 +427,31 @@ namespace risk.control.system.Migrations
                     b.ToTable("InvestigationCaseStatus");
                 });
 
+            modelBuilder.Entity("risk.control.system.Models.InvestigationServiceType", b =>
+                {
+                    b.Property<string>("InvestigationServiceTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LineOfBusinessId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InvestigationServiceTypeId");
+
+                    b.HasIndex("LineOfBusinessId");
+
+                    b.ToTable("InvestigationServiceType");
+                });
+
             modelBuilder.Entity("risk.control.system.Models.LineOfBusiness", b =>
                 {
                     b.Property<string>("LineOfBusinessId")
@@ -644,6 +669,17 @@ namespace risk.control.system.Migrations
                     b.Navigation("LineOfBusiness");
                 });
 
+            modelBuilder.Entity("risk.control.system.Models.InvestigationServiceType", b =>
+                {
+                    b.HasOne("risk.control.system.Models.LineOfBusiness", "LineOfBusiness")
+                        .WithMany("InvestigationServiceTypes")
+                        .HasForeignKey("LineOfBusinessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LineOfBusiness");
+                });
+
             modelBuilder.Entity("risk.control.system.Models.PinCode", b =>
                 {
                     b.HasOne("risk.control.system.Models.Country", "Country")
@@ -677,6 +713,11 @@ namespace risk.control.system.Migrations
             modelBuilder.Entity("risk.control.system.Models.Country", b =>
                 {
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.LineOfBusiness", b =>
+                {
+                    b.Navigation("InvestigationServiceTypes");
                 });
 
             modelBuilder.Entity("risk.control.system.Models.PinCode", b =>

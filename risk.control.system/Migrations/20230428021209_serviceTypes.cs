@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace risk.control.system.Migrations
 {
     /// <inheritdoc />
-    public partial class clientcompany : Migration
+    public partial class serviceTypes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -130,6 +130,26 @@ namespace risk.control.system.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InvestigationCase_LineOfBusiness_LineOfBusinessId",
+                        column: x => x.LineOfBusinessId,
+                        principalTable: "LineOfBusiness",
+                        principalColumn: "LineOfBusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvestigationServiceType",
+                columns: table => new
+                {
+                    InvestigationServiceTypeId = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Code = table.Column<string>(type: "TEXT", nullable: false),
+                    LineOfBusinessId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvestigationServiceType", x => x.InvestigationServiceTypeId);
+                    table.ForeignKey(
+                        name: "FK_InvestigationServiceType_LineOfBusiness_LineOfBusinessId",
                         column: x => x.LineOfBusinessId,
                         principalTable: "LineOfBusiness",
                         principalColumn: "LineOfBusinessId",
@@ -465,6 +485,11 @@ namespace risk.control.system.Migrations
                 column: "LineOfBusinessId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvestigationServiceType_LineOfBusinessId",
+                table: "InvestigationServiceType",
+                column: "LineOfBusinessId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PinCode_CountryId",
                 table: "PinCode",
                 column: "CountryId");
@@ -506,6 +531,9 @@ namespace risk.control.system.Migrations
 
             migrationBuilder.DropTable(
                 name: "InvestigationCase");
+
+            migrationBuilder.DropTable(
+                name: "InvestigationServiceType");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

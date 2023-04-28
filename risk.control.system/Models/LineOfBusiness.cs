@@ -14,6 +14,7 @@ namespace risk.control.system.Models
         [Display(Name = "Line of Business code")]
         [Required]
         public string Code { get; set; }
+        public List<InvestigationServiceType>? InvestigationServiceTypes { get; set; }
         public DateTime Created { get; set; }
     }
 }
