@@ -1,20 +1,19 @@
-﻿@model risk.control.system.Models.ClientCompany
+﻿@model risk.control.system.Models.Vendor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 <section class="content pt-2">
     <div class="container-fluid ">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Create Client company</h3>
+                            <h3 class="card-title">Create Investigating agency</h3>
                         </div>
                         <div class="card-body">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="ClientCompanyId" />
                             <div class="form-group">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
@@ -60,6 +59,11 @@
                                 <span asp-validation-for="Addressline" class="text-danger"></span>
                             </div>
                             <div class="form-group">
+                                <label asp-for="City" class="control-label"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
                                 <label asp-for="CountryId" class="control-label"></label>
                                 <select asp-for="CountryId" class="form-control" tex asp-items="ViewBag.CountryId" onchange="loadState(this)">
                                     <option>--- SELECT COUNTRY ---</option>
@@ -77,13 +81,13 @@
                                     <option>--- SELECT PINCODE ---</option>
                                 </select>
                             </div>
-                             <div class="card-footer text-right">
+                            <div class="card-footer text-right">
                                 <a asp-action="Index" class="btn btn-secondary">
                                     <i class="fa fa-window-close"></i>
                                     Cancel
                                 </a>
                                 <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-plus"></i> Create
+                                    <i class="fas fa-pen"></i> Edit
                                 </button>
                             </div>
                         </div>
@@ -93,8 +97,7 @@
         </form>
     </div>
 </section>
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

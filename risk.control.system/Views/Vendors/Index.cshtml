@@ -1,13 +1,13 @@
-﻿@model IEnumerable<risk.control.system.Models.ClientCompany>
+﻿@model IEnumerable<risk.control.system.Models.Vendor>
 
 @{
     ViewData["Title"] = "Index";
 }
 <div>
-    <h4>Client Company</h4>
+    <h4>Vendor</h4>
     <form asp-action="index">
         <div class="input-group col-5" style="padding:0px;">
-            <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i> Create client company</a>
+            <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i> Create vendor </a>
             <input autocomplete="off" name="SearchString" type="text" class="form-control" />
             <span class="input-group-append">
                 <button type="submit" class="btn btn-info"> <i class="fa fa-search"></i> Search...</button>
@@ -88,16 +88,16 @@
                 @Html.DisplayFor(modelItem => item.Country.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PinCode.Code)
+                @Html.DisplayFor(modelItem => item.PinCode.Name)
             </td>
                     <td>
-                        <a class="btn btn-xs btn-info" asp-action="Details" asp-route-id="@item.ClientCompanyId">
+                        <a class="btn btn-xs btn-info" asp-action="Details" asp-route-id="@item.VendorId">
                             <i class="fa fa-search"></i> View
                         </a> &nbsp;
-                        <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@item.ClientCompanyId">
+                        <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@item.VendorId">
                             <i class="fas fa-pen"></i> Edit
                         </a> &nbsp;
-                        <a class="btn btn-xs btn-danger" asp-action="Delete" asp-route-id="@item.ClientCompanyId">
+                        <a class="btn btn-xs btn-danger" asp-action="Delete" asp-route-id="@item.VendorId">
                             <i class="fas fa-trash"></i> Delete
                         </a>
                     </td>

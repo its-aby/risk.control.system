@@ -11,7 +11,7 @@ using risk.control.system.Data;
 namespace risk.control.system.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230428054101_serviceTypes")]
+    [Migration("20230428073838_serviceTypes")]
     partial class serviceTypes
     {
         /// <inheritdoc />
@@ -204,6 +204,10 @@ namespace risk.control.system.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -289,6 +293,10 @@ namespace risk.control.system.Migrations
                     b.HasIndex("StateId");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("risk.control.system.Models.ClaimsInvestigation", b =>
@@ -554,6 +562,26 @@ namespace risk.control.system.Migrations
                     b.ToTable("PinCode");
                 });
 
+            modelBuilder.Entity("risk.control.system.Models.ServicedPinCode", b =>
+                {
+                    b.Property<int>("ServicedPinCodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Pincode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VendorInvestigationServiceTypeId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ServicedPinCodeId");
+
+                    b.HasIndex("VendorInvestigationServiceTypeId");
+
+                    b.ToTable("ServicedPinCode");
+                });
+
             modelBuilder.Entity("risk.control.system.Models.State", b =>
                 {
                     b.Property<string>("StateId")
@@ -577,6 +605,107 @@ namespace risk.control.system.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("State");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.Vendor", b =>
+                {
+                    b.Property<string>("VendorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Addressline")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CountryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PinCodeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StateId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("VendorId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("PinCodeId");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("Vendor");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.VendorInvestigationServiceType", b =>
+                {
+                    b.Property<string>("VendorInvestigationServiceTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvestigationServiceTypeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VendorId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("VendorInvestigationServiceTypeId");
+
+                    b.HasIndex("InvestigationServiceTypeId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("VendorInvestigationServiceType");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.ClientApplicationUser", b =>
+                {
+                    b.HasBaseType("risk.control.system.Models.ApplicationUser");
+
+                    b.Property<string>("ClientCompanyId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasIndex("ClientCompanyId");
+
+                    b.HasDiscriminator().HasValue("ClientApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -779,6 +908,13 @@ namespace risk.control.system.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("risk.control.system.Models.ServicedPinCode", b =>
+                {
+                    b.HasOne("risk.control.system.Models.VendorInvestigationServiceType", null)
+                        .WithMany("PincodeServices")
+                        .HasForeignKey("VendorInvestigationServiceTypeId");
+                });
+
             modelBuilder.Entity("risk.control.system.Models.State", b =>
                 {
                     b.HasOne("risk.control.system.Models.Country", "Country")
@@ -790,6 +926,51 @@ namespace risk.control.system.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("risk.control.system.Models.Vendor", b =>
+                {
+                    b.HasOne("risk.control.system.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("risk.control.system.Models.PinCode", "PinCode")
+                        .WithMany()
+                        .HasForeignKey("PinCodeId");
+
+                    b.HasOne("risk.control.system.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("PinCode");
+
+                    b.Navigation("State");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.VendorInvestigationServiceType", b =>
+                {
+                    b.HasOne("risk.control.system.Models.InvestigationServiceType", "InvestigationServiceType")
+                        .WithMany()
+                        .HasForeignKey("InvestigationServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("risk.control.system.Models.Vendor", null)
+                        .WithMany("VendorInvestigationServiceTypes")
+                        .HasForeignKey("VendorId");
+
+                    b.Navigation("InvestigationServiceType");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.ClientApplicationUser", b =>
+                {
+                    b.HasOne("risk.control.system.Models.ClientCompany", "ClientCompany")
+                        .WithMany()
+                        .HasForeignKey("ClientCompanyId");
+
+                    b.Navigation("ClientCompany");
+                });
+
             modelBuilder.Entity("risk.control.system.Models.ClaimsInvestigation", b =>
                 {
                     b.Navigation("InvestigationServiceTypes");
@@ -798,6 +979,16 @@ namespace risk.control.system.Migrations
             modelBuilder.Entity("risk.control.system.Models.LineOfBusiness", b =>
                 {
                     b.Navigation("InvestigationServiceTypes");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.Vendor", b =>
+                {
+                    b.Navigation("VendorInvestigationServiceTypes");
+                });
+
+            modelBuilder.Entity("risk.control.system.Models.VendorInvestigationServiceType", b =>
+                {
+                    b.Navigation("PincodeServices");
                 });
 #pragma warning restore 612, 618
         }

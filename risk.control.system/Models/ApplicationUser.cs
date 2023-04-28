@@ -32,6 +32,7 @@ namespace risk.control.system.Models
         public string CountryId { get; set; }
         [Display(Name = "Country name")]
         public Country Country { get; set; }
+
         [Required]
         public string? Password { get; set; }
     }
