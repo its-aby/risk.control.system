@@ -24,7 +24,7 @@ namespace risk.control.system.Controllers
         public async Task<IActionResult> Index()
         {
             return _context.LineOfBusiness != null ?
-                        View(await _context.LineOfBusiness.ToListAsync()) :
+                        View(await _context.LineOfBusiness.Include(l => l.InvestigationServiceTypes).ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.RiskCaseType'  is null.");
         }
 

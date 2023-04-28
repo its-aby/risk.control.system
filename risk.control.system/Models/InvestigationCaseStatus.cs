@@ -7,7 +7,7 @@ namespace risk.control.system.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string InvestigationCaseStatusId { get; set; }
+        public string InvestigationCaseStatusId { get; set; } = Guid.NewGuid().ToString();
         [Display(Name = "Case status")]
         [Required]
         public string Name { get; set; }

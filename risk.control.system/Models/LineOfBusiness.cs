@@ -7,7 +7,7 @@ namespace risk.control.system.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string LineOfBusinessId { get; set; }
+        public string LineOfBusinessId { get; set; } = Guid.NewGuid().ToString();
         [Display(Name = "Line of Business")]
         [Required]
         public string Name { get; set; }

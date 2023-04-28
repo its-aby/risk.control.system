@@ -7,7 +7,7 @@ namespace risk.control.system.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string InvestigationServiceTypeId { get; set; }
+        public string InvestigationServiceTypeId { get; set; } = Guid.NewGuid().ToString();
         [Display(Name = "InvestigationService Type")]
         [Required]
         public string Name { get; set; }

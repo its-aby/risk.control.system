@@ -7,7 +7,7 @@ public class Country
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string CountryId { get; set; }
+    public string CountryId { get; set; } = Guid.NewGuid().ToString();
     [Display(Name = "Country name")]
     public string Name { get; set; }
     [Display(Name = "Country code")]
@@ -20,7 +20,7 @@ public class State
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string StateId { get; set; }
+    public string StateId { get; set; } = Guid.NewGuid().ToString();
     [Display(Name = "State name")]
     public string Name { get; set; }
     [Display(Name = "State code")]
@@ -37,7 +37,7 @@ public class PinCode
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string PinCodeId { get; set; }
+    public string PinCodeId { get; set; } = Guid.NewGuid().ToString();
     [Display(Name = "PinCode name")]
     public string Name { get; set; }
     [Display(Name = "PinCode")]

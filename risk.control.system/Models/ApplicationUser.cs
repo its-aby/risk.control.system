@@ -12,7 +12,7 @@ namespace risk.control.system.Models
         public byte[]? ProfilePicture { get; set; }
         [NotMapped]
         [Display(Name = "Image")]
-        public IFormFile ProfileImage { get; set; }
+        public IFormFile? ProfileImage { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

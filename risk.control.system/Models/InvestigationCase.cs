@@ -7,7 +7,7 @@ namespace risk.control.system.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string InvestigationId { get; set; } =Guid.NewGuid().ToString(); 
+        public string InvestigationId { get; set; } = Guid.NewGuid().ToString(); 
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace risk.control.system.Models
         public string InvestigationCaseStatusId { get; set; }
         [Display(Name = "Case status")]
         public InvestigationCaseStatus InvestigationCaseStatus { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
 
     }
 }
