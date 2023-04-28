@@ -32,7 +32,7 @@ namespace risk.control.system.Seeds
             await roleManager.CreateAsync(new ApplicationRole(AppRoles.VendorSupervisor.ToString().Substring(0, 2).ToUpper(), AppRoles.VendorSupervisor.ToString()));
             await roleManager.CreateAsync(new ApplicationRole(AppRoles.VendorAgent.ToString().Substring(0, 2).ToUpper(), AppRoles.VendorAgent.ToString()));
 
-            //CREATE RISK CASE DETAILS
+            #region //CREATE RISK CASE DETAILS
             var created = new InvestigationCaseStatus
             {
                 Name = "CREATED",
@@ -143,21 +143,89 @@ namespace risk.control.system.Seeds
             };
 
             var currentCaseStatus15 = await context.InvestigationCaseStatus.AddAsync(clientAsssessorReturnRejected);
+            #endregion
+
+            #region INVESTIGATION SERVICE TYPES
+
+            var claimComprehensive = new InvestigationServiceType
+            {
+                Name = "COMPREHENSIVE",
+                Code = "COMPREHENSIVE",
+            };
+            var claimComprehensiveService = await context.InvestigationServiceType.AddAsync(claimComprehensive);
+
+
+            var claimNonComprehensive = new InvestigationServiceType
+            {
+                Name = "NON-COMPREHENSIVE",
+                Code = "NON-COMPREHENSIVE",
+            };
+
+            var claimNonComprehensiveService = await context.InvestigationServiceType.AddAsync(claimNonComprehensive);
+
+
+            var claimDocumentCollection = new InvestigationServiceType
+            {
+                Name = "DOCUMENT-COLLECTION",
+                Code = "DOCUMENT-COLLECTION",
+            };
+
+            var claimDocumentCollectionService = await context.InvestigationServiceType.AddAsync(claimDocumentCollection);
+
+
+            var claimDiscreet = new InvestigationServiceType
+            {
+                Name = "DISCREET",
+                Code = "DISCREET",
+            };
+
+            var claimDiscreetService = await context.InvestigationServiceType.AddAsync(claimDiscreet);
+
+
+            var underWritingPreVerification = new InvestigationServiceType
+            {
+                Name = "PRE-ONBOARDING-VERIFICATION",
+                Code = "PRE-ONBOARDING-VERIFICATION",
+            };
+
+            var underWritingPreVerificationService = await context.InvestigationServiceType.AddAsync(underWritingPreVerification);
+
+
+            var underWritingPostVerification = new InvestigationServiceType
+            {
+                Name = "POST-ONBOARDING-VERIFICATION",
+                Code = "POST-ONBOARDING-VERIFICATION",
+            };
+
+            var underWritingPostVerificationService = await context.InvestigationServiceType.AddAsync(underWritingPostVerification);
+
+
+            #endregion
+
+
+            #region LINE OF BUSINESS
 
             var claims = new LineOfBusiness
             {
                 Name = "CLAIMS",
                 Code = "CLAIMS",
+                InvestigationServiceTypes = new List<InvestigationServiceType> { claimComprehensiveService.Entity, claimNonComprehensiveService.Entity, claimDocumentCollectionService.Entity, claimDiscreetService.Entity }
             };
 
-            var currentCaseType1 = await context.LineOfBusiness.AddAsync(claims);
+            var claimCaseType = await context.LineOfBusiness.AddAsync(claims);
+
             var underwriting = new LineOfBusiness
             {
                 Name = "UNDERWRITING",
                 Code = "UNDERWRITING",
+                InvestigationServiceTypes = new List<InvestigationServiceType> { underWritingPreVerificationService.Entity, underWritingPostVerificationService.Entity }
             };
 
-            var currentCaseType = await context.LineOfBusiness.AddAsync(underwriting);
+            var underwritingCaseType = await context.LineOfBusiness.AddAsync(underwriting);
+
+            #endregion
+
+            #region COUNTRY STATE PINCODE
             var india = new Country
             {
                 Name = "INDIA",
@@ -302,237 +370,257 @@ namespace risk.control.system.Seeds
 
             var torontoCityCode = await context.PinCode.AddAsync(tasmaniaCity);
 
-            var _case1 = new InvestigationCase
+            #endregion
+
+            #region INVESTIGATION CASES
+
+            var claimComprehensiveCase = new InvestigationCase
             {
                 Name = "TEST CLAIM CASE 1",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+                Description = "TEST CLAIM CASE DESCRIPTION comprehensive service 1",
+                LineOfBusinessId = claimCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = claimComprehensiveService.Entity.InvestigationServiceTypeId,
                 InvestigationCaseStatusId = currentCaseStatus1.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
-            var _case2 = new InvestigationCase
+
+            var claimNonComprehensiveCase = new InvestigationCase
             {
                 Name = "TEST CLAIM CASE 2",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+                Description = "TEST CLAIM CASE DESCRIPTION non-comprehensive service 1",
+                LineOfBusinessId = claimCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = claimNonComprehensiveService.Entity.InvestigationServiceTypeId,
                 InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
 
-            var _case3 = new InvestigationCase
+            var underwritingPreCase = new InvestigationCase
             {
-                Name = "TEST CLAIM CASE 3",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+                Name = "UNDER-WRITING PRE CASE 3",
+                Description = "UNDER-WRITING PRE CASE DESCRIPTION",
+                LineOfBusinessId = underwritingCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = underWritingPreVerificationService.Entity.InvestigationServiceTypeId,
                 InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case4 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 4",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case5 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 5",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus5.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case6 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 6",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus6.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case7 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 7",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case8 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 8",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case9 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 9",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case10 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 10",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case11 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 11",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus6.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case12 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 12",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus5.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case13 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 13",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case14 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 14",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus1.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
 
-            var _case15 = new InvestigationCase
+            var claimDocumentCollectionCase = new InvestigationCase
             {
-                Name = "TEST CLAIM CASE 15",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case16 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 16",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case17 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 17",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case18 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 18",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case19 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 19",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case20 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 20",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case21 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 21",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case22 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 22",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
-                Created = DateTime.Now
-            };
-            var _case23 = new InvestigationCase
-            {
-                Name = "TEST CLAIM CASE 23",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+                Name = "TEST CLAIM CASE DOCUMENT COLLECTION",
+                Description = "TEST CLAIM DOCUMENT COLLECTION CASE DESCRIPTION",
+                LineOfBusinessId = claimCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = claimDocumentCollectionService.Entity.InvestigationServiceTypeId,
                 InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
 
-            var _case24 = new InvestigationCase
+            var underwritingPostCase = new InvestigationCase
             {
-                Name = "TEST CLAIM CASE 24",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+                Name = "UNDER-WRITING POST CASE",
+                Description = "TEST CLAIM POST CASE DESCRIPTION",
+                LineOfBusinessId = underwritingCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = underWritingPostVerificationService.Entity.InvestigationServiceTypeId,
                 InvestigationCaseStatusId = currentCaseStatus5.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
 
-            var _case25 = new InvestigationCase
+            var claimDiscreetCase = new InvestigationCase
             {
-                Name = "TEST CLAIM CASE 25",
-                Description = "TEST CLAIM CASE DESCRIPTION",
-                LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
-                InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
+                Name = "TEST CLAIM DISCREET CASE ",
+                Description = "TEST CLAIM DISCREET CASE DESCRIPTION",
+                LineOfBusinessId = claimCaseType.Entity.LineOfBusinessId,
+                InvestigationServiceTypeId = claimDiscreetService.Entity.InvestigationServiceTypeId,
+                InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
                 Created = DateTime.Now
             };
 
-            await context.InvestigationCase.AddAsync(_case1);
-            await context.InvestigationCase.AddAsync(_case2);
-            await context.InvestigationCase.AddAsync(_case3);
-            await context.InvestigationCase.AddAsync(_case4);
-            await context.InvestigationCase.AddAsync(_case5);
-            await context.InvestigationCase.AddAsync(_case6);
-            await context.InvestigationCase.AddAsync(_case7);
-            await context.InvestigationCase.AddAsync(_case8);
-            await context.InvestigationCase.AddAsync(_case9);
-            await context.InvestigationCase.AddAsync(_case10);
-            await context.InvestigationCase.AddAsync(_case11);
-            await context.InvestigationCase.AddAsync(_case12);
-            await context.InvestigationCase.AddAsync(_case13);
-            await context.InvestigationCase.AddAsync(_case14);
-            await context.InvestigationCase.AddAsync(_case15);
-            await context.InvestigationCase.AddAsync(_case16);
-            await context.InvestigationCase.AddAsync(_case17);
-            await context.InvestigationCase.AddAsync(_case18);
-            await context.InvestigationCase.AddAsync(_case19);
-            await context.InvestigationCase.AddAsync(_case20);
-            await context.InvestigationCase.AddAsync(_case21);
-            await context.InvestigationCase.AddAsync(_case22);
-            await context.InvestigationCase.AddAsync(_case23);
-            await context.InvestigationCase.AddAsync(_case24);
-            await context.InvestigationCase.AddAsync(_case25);
+            //var _case7 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 7",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case8 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 8",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case9 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 9",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case10 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 10",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case11 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 11",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus6.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case12 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 12",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus5.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case13 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 13",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case14 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 14",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus1.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
 
+            //var _case15 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 15",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case16 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 16",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case17 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 17",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case18 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 18",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus3.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case19 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 19",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case20 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 20",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case21 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 21",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus7.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case22 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 22",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+            //var _case23 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 23",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus4.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+
+            //var _case24 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 24",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus5.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+
+            //var _case25 = new InvestigationCase
+            //{
+            //    Name = "TEST CLAIM CASE 25",
+            //    Description = "TEST CLAIM CASE DESCRIPTION",
+            //    LineOfBusinessId = currentCaseType.Entity.LineOfBusinessId,
+            //    InvestigationCaseStatusId = currentCaseStatus2.Entity.InvestigationCaseStatusId,
+            //    Created = DateTime.Now
+            //};
+
+            #endregion
+
+
+            await context.InvestigationCase.AddAsync(claimComprehensiveCase);
+            await context.InvestigationCase.AddAsync(claimNonComprehensiveCase);
+            await context.InvestigationCase.AddAsync(claimDocumentCollectionCase);
+            await context.InvestigationCase.AddAsync(underwritingPreCase);
+            await context.InvestigationCase.AddAsync(underwritingPostCase);
+            await context.InvestigationCase.AddAsync(claimDiscreetCase);
+            //await context.InvestigationCase.AddAsync(_case7);
+            //await context.InvestigationCase.AddAsync(_case8);
+            //await context.InvestigationCase.AddAsync(_case9);
+            //await context.InvestigationCase.AddAsync(_case10);
+            //await context.InvestigationCase.AddAsync(_case11);
+            //await context.InvestigationCase.AddAsync(_case12);
+            //await context.InvestigationCase.AddAsync(_case13);
+            //await context.InvestigationCase.AddAsync(_case14);
+            //await context.InvestigationCase.AddAsync(_case15);
+            //await context.InvestigationCase.AddAsync(_case16);
+            //await context.InvestigationCase.AddAsync(_case17);
+            //await context.InvestigationCase.AddAsync(_case18);
+            //await context.InvestigationCase.AddAsync(_case19);
+            //await context.InvestigationCase.AddAsync(_case20);
+            //await context.InvestigationCase.AddAsync(_case21);
+            //await context.InvestigationCase.AddAsync(_case22);
+            //await context.InvestigationCase.AddAsync(_case23);
+            //await context.InvestigationCase.AddAsync(_case24);
+            //await context.InvestigationCase.AddAsync(_case25);
+
+
+            #region APPLICATION USERS ROLES
 
             //CREATE CLIENT COMPANY
 
@@ -797,6 +885,7 @@ namespace risk.control.system.Seeds
                     await userManager.AddToRoleAsync(vendorAgent, AppRoles.VendorAgent.ToString());
                 }
             }
+            #endregion
         }
     }
 }

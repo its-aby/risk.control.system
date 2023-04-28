@@ -13,7 +13,6 @@ public class Country
     [Display(Name = "Country code")]
     [Required]
     public string Code { get; set; }
-    public Address? Address { get; set; }
 
 }
 public class State
@@ -31,7 +30,6 @@ public class State
     public  string CountryId { get; set; }
     [Display(Name = "Country name")]
     public Country Country { get; set; }
-    public Address? Address { get; set; }
 }
 public class PinCode
 {
@@ -53,5 +51,4 @@ public class PinCode
     public string CountryId { get; set; }
     [Display(Name = "Country name")]
     public Country Country { get; set; }
-    public Address? Address { get; set; }
 }

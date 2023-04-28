@@ -10,8 +10,8 @@ namespace risk.control.system.Models
         public string? ProfilePictureUrl { get; set; }
         public bool isSuperAdmin { get; set; } = false;
         public byte[]? ProfilePicture { get; set; }
-        [NotMapped]
         [Display(Name = "Image")]
+        [NotMapped] 
         public IFormFile? ProfileImage { get; set; }
         [Required]
         public string FirstName { get; set; }
