@@ -14,14 +14,12 @@ namespace risk.control.system.Controllers
     private readonly SignInManager<Models.ApplicationUser> signInManager;
         private readonly UserManager<Models.ApplicationUser> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
-        private readonly IToastNotification toastNotification;
 
         public UserRolesController(UserManager<Models.ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
-            SignInManager<Models.ApplicationUser> signInManager, IToastNotification toastNotification)
+            SignInManager<Models.ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
-            this.toastNotification = toastNotification;
             this.signInManager = signInManager;
         }
         public async Task<IActionResult> Index(string userId)
