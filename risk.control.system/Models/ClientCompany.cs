@@ -1,7 +1,12 @@
-﻿namespace risk.control.system.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace risk.control.system.Models
 {
     public class ClientCompany
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ClientCompanyId { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;

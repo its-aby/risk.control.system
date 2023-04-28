@@ -124,10 +124,7 @@ namespace risk.control.system.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "CountryId", "Name", clientCompany.CountryId);
-            ViewData["PinCodeId"] = new SelectList(_context.PinCode, "PinCodeId", "Name", clientCompany.PinCodeId);
-            ViewData["StateId"] = new SelectList(_context.State, "StateId", "Name", clientCompany.StateId);
-            return View(clientCompany);
+            return Problem();
         }
 
         // GET: ClientCompanies/Delete/5

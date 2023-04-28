@@ -533,6 +533,30 @@ namespace risk.control.system.Seeds
             await context.InvestigationCase.AddAsync(_case24);
             await context.InvestigationCase.AddAsync(_case25);
 
+
+            //CREATE CLIENT COMPANY
+
+            var TataAig = new ClientCompany
+            {
+                ClientCompanyId = Guid.NewGuid().ToString(),
+                Name = "TATA AIG INSURANCE",
+                Addressline = "100 GOOD STREET ",
+                Branch = "FOREST HILL CHASE",
+                City = "FOREST HILL",
+                Code = "TA001",
+                Country = australiaCountry.Entity,
+                CountryId = australiaCountry.Entity.CountryId,
+                State = victoriaState.Entity,
+                StateId = victoriaState.Entity.StateId,
+                PinCode = forestHillPinCode.Entity,
+                PinCodeId = forestHillPinCode.Entity.PinCodeId,
+                Description = "HEAD OFFICE ",
+                Email = "tata-aig@mail.com",
+                PhoneNumber = "(03) 88004739",
+            };
+
+            var tataAigCompany = await context.ClientCompany.AddAsync(TataAig);
+
             await context.SaveChangesAsync();
 
             //Seed portal admin
